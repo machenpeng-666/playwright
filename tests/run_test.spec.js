@@ -2,7 +2,7 @@
  * @Author: machenpeng-666 m1360896099@163.com
  * @Date: 2024-06-13 22:27:30
  * @LastEditors: machenpeng-666 m1360896099@163.com
- * @LastEditTime: 2024-06-13 22:50:57
+ * @LastEditTime: 2024-06-17 21:04:30
  * @FilePath: \cypress-projectd:\开发项目\playwright\tests\run_test.spec.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -65,6 +65,13 @@
 import { test, expect } from "@playwright/test";
 test.beforeEach(async ({ context }) => {
   await context.addInitScript(() => {
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    setCookie("cookieToken", "your-token-value", 30);
     window.sessionStorage.setItem("token", "niubi1545484848");
     window.localStorage.setItem("mytestdata", "niubi1545484848");
     console.log(window.sessionStorage.getItem("token"), "token打印");
